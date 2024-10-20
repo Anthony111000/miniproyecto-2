@@ -6,7 +6,11 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import com.example.miniproyecto2.model.Game;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -40,21 +44,132 @@ public class GameController {
     @FXML
     private void handleButtonClick() {
         System.out.println("El botón Ayuda fue presionado");
-        provideHint();
+     //   provideHint();
+      /*  for (int row = 0; row <= 5; row++) {
+            Line line = new Line(0, row * 50, 300, row * 50);  // Línea horizontal
+            line.setStroke(Color.BLACK);
+            line.setStrokeWidth(2);  // Grosor de la línea
+            board.getChildren().add(line);
+        }
+
+// Añadir líneas verticales
+        for (int col = 0    ; col <= 5; col++) {
+            Line line = new Line(col * 50, 0, col * 50, 300);  // Línea vertical
+            line.setStroke(Color.BLACK);
+            line.setStrokeWidth(2);  // Grosor de la línea
+            board.getChildren().add(line);
+        }*/
     }
     public void initialize() {
+
+
 
 
         game = new Game();
         Random rand = new Random();
 
         ArrayList<ArrayList<Integer>> sudokuBoard = game.generateSudoku6x6();
-        printSudokuBoard(sudokuBoard);
+       printSudokuBoard(sudokuBoard);
+        createAndAssignTextFieldsToBoard(sudokuBoard);
+       // createTextFieldsInGrids();
+      //  assignTwoValuesPerGrid(sudokuBoard);
+      // Definir las líneas para el GridPane llamado 'board'
+        // Dibujar una línea horizontal que divide la mitad del grid (después de la fila 2)
 
-        createTextFieldsInGrids();
-        assignTwoValuesPerGrid(sudokuBoard);
+    }
+    // Método para crear los TextFields y asignarles valores en el GridPane 'board'
+    private void createAndAssignTextFieldsToBoard(ArrayList<ArrayList<Integer>> sudokuBoard) {
+        // Limpiar el GridPane 'board' antes de agregar nuevos TextFields
+        board.getChildren().clear();
 
+        Random rand = new Random();
 
+        // Recorrer el tablero de 6x6 para crear los TextFields
+        for (int row = 0; row < 6; row++) {
+            for (int col = 0; col < 6; col++) {
+                // Crear un nuevo TextField
+                TextField textField = new TextField();
+
+                // Asignar propiedades al TextField
+                textField.setPrefWidth(80);  // Definir el ancho preferido del TextField
+                textField.setPrefHeight(80); // Definir la altura preferida del TextField
+                textField.setAlignment(Pos.CENTER);  // Centrar el texto dentro del TextField
+
+                // Dejar vacío el TextField por defecto
+                textField.setText("");
+
+                // Hacer que el TextField sea editable si está vacío
+                textField.setEditable(true);
+
+                textField.setTextFormatter(new TextFormatter<>(change -> {
+                    String newText = change.getControlNewText();
+                    if (newText.matches("[1-6]") || newText.isEmpty()) {
+                        return change;  // Aceptar si es un número entre 1 y 6 o si el campo está vacío
+                    }
+                    return null;  // Rechazar cualquier otra entrada
+                }));
+
+                // Agregar el TextField al GridPane en la posición correspondiente
+                board.add(textField, col, row);
+            }
+        }
+
+        // Recorrer cada bloque de 3x2 (2 filas por 3 columnas de bloques)
+        for (int blockRow = 0; blockRow < 3; blockRow++) { // 3 bloques horizontales (filas)
+            for (int blockCol = 0; blockCol < 2; blockCol++) { // 2 bloques verticales (columnas)
+
+                // Obtener las posiciones del bloque actual
+                int startRow = blockRow * 2;  // Cada bloque tiene 2 filas
+                int startCol = blockCol * 3;  // Cada bloque tiene 3 columnas
+
+                // Generar dos posiciones aleatorias dentro del bloque
+                int[] positions = getRandomPositionsInBlock(startRow, startCol);
+
+                // Asignar valores a las posiciones aleatorias dentro del bloque
+                for (int i = 0; i < 2; i++) {
+                    int row = positions[i] / 3 + startRow;  // Calculamos la fila
+                    int col = positions[i] % 3 + startCol;  // Calculamos la columna
+
+                    // Obtener el valor correspondiente del sudokuBoard
+                    int value = sudokuBoard.get(row).get(col);
+
+                    // Obtener el TextField y asignar el valor
+                    TextField textField = (TextField) getNodeFromGridPane(board, col, row);
+                    textField.setText(String.valueOf(value));
+
+                    // Hacer que algunos TextFields sean no editables si tienen valor
+                    textField.setEditable(false);
+                }
+            }
+        }
+    }
+
+    // Método para obtener dos posiciones aleatorias dentro de un bloque de 3x2
+    private int[] getRandomPositionsInBlock(int startRow, int startCol) {
+        Random rand = new Random();
+        // Crear un arreglo con todas las posiciones posibles dentro de un bloque 3x2
+        ArrayList<Integer> positions = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {  // Dos filas en un bloque
+            for (int j = 0; j < 3; j++) {  // Tres columnas en un bloque
+                positions.add(i * 3 + j);  // Agregar la posición (indexada linealmente dentro del bloque)
+            }
+        }
+
+        // Seleccionar dos posiciones aleatorias diferentes
+        int pos1 = positions.remove(rand.nextInt(positions.size()));
+        int pos2 = positions.remove(rand.nextInt(positions.size()));
+
+        return new int[] { pos1, pos2 };
+    }
+
+    // Método auxiliar para obtener el TextField de un GridPane en una posición específica
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return node;
+            }
+        }
+        return null;
     }
 
 
@@ -68,105 +183,6 @@ public class GameController {
         }
     }
 
-    private void createTextFieldsInGrids() {
-        // Crear los TextFields en los diferentes GridPanes
-        createTextFieldsForGrid(grid00, 0, 0);
-        createTextFieldsForGrid(grid01, 0, 1);
-        createTextFieldsForGrid(grid10, 2, 0);
-        createTextFieldsForGrid(grid11, 2, 1);
-        createTextFieldsForGrid(grid20, 4, 0);
-        createTextFieldsForGrid(grid21, 4, 1);
-    }
-
-    // Método auxiliar para crear los TextFields en un GridPane
-    private void createTextFieldsForGrid(GridPane grid, int startRow, int startCol) {
-        for (int row = startRow; row < startRow + 2; row++) {
-            for (int col = startCol; col < startCol + 3; col++) {
-                TextField textField = new TextField();
-                textField.setPrefWidth(80);  // Establecer el tamaño de los TextField
-                textField.setPrefHeight(80); // Establecer el tamaño de los TextField
-                textField.setAlignment(Pos.CENTER);
-                textField.setStyle("-fx-font-size: 30px; -fx-font-weight: bold;");
-
-                // Filtrar las teclas para permitir solo 1-6 y un solo carácter
-                textField.addEventFilter(javafx.scene.input.KeyEvent.KEY_TYPED, event -> {
-                    String character = event.getCharacter();
-                    // Permitir solo los dígitos 1-6 y asegurar que no haya más de un carácter
-                    if (!character.matches("[1-6]") || textField.getText().length() >= 1) {
-                        event.consume(); // Si no es un número del 1 al 6 o ya hay un dígito, consumir el evento
-                    }
-                });
-
-                grid.add(textField, col - startCol, row - startRow);  // Añadir TextField al GridPane
-            }
-        }
-    }
-
-
-    // Método para asignar solo dos valores a cada GridPane
-    private void assignTwoValuesPerGrid(ArrayList<ArrayList<Integer>> sudokuBoard) {
-
-        assignTwoValuesToGrid(grid00, sudokuBoard, 0, 0);
-        assignTwoValuesToGrid(grid01, sudokuBoard, 0, 3);
-        assignTwoValuesToGrid(grid10, sudokuBoard, 2, 0);
-        assignTwoValuesToGrid(grid11, sudokuBoard, 2, 3);
-        assignTwoValuesToGrid(grid20, sudokuBoard, 4, 0);
-        assignTwoValuesToGrid(grid21, sudokuBoard, 4, 3);
-    }
-
-    // Método auxiliar para asignar dos valores a un GridPane
-    private void assignTwoValuesToGrid(GridPane grid, ArrayList<ArrayList<Integer>> sudokuBoard, int startRow, int startCol) {
-        Random rand = new Random();
-
-        // Elegir dos posiciones aleatorias para asignar los valores
-        int row1 = rand.nextInt(2) + startRow;  // Elige una fila aleatoria entre startRow y startRow + 1
-        int col1 = rand.nextInt(3) + startCol;  // Elige una columna aleatoria entre startCol y startCol + 2
-
-        int row2, col2;
-        // Asegurarse de que la segunda posición sea diferente de la primera
-        do {
-            row2 = rand.nextInt(2) + startRow;
-            col2 = rand.nextInt(3) + startCol;
-        } while (row1 == row2 && col1 == col2);  // Si es la misma posición, se elige otra
-
-        // Asignar los valores de sudokuBoard a las posiciones aleatorias
-        int value1 = sudokuBoard.get(row1).get(col1);
-        int value2 = sudokuBoard.get(row2).get(col2);
-
-        // Obtener los TextField correspondientes a las posiciones aleatorias
-        TextField textField1 = (TextField) getNodeFromGridPane(grid, col1 - startCol, row1 - startRow);
-        TextField textField2 = (TextField) getNodeFromGridPane(grid, col2 - startCol, row2 - startRow);
-
-        // Asignar los valores a los TextField
-        textField1.setText(String.valueOf(value1));
-        textField2.setText(String.valueOf(value2));
-
-        // Bloquear los TextFields con valores asignados
-        textField1.setEditable(false);
-        textField2.setEditable(false);
-
-        // Dejar los demás TextFields vacíos y editables
-        for (int row = startRow; row < startRow + 2; row++) {
-            for (int col = startCol; col < startCol + 3; col++) {
-                if ((row != row1 || col != col1) && (row != row2 || col != col2)) {
-                    // Obtener el TextField y vaciarlo
-                    TextField textField = (TextField) getNodeFromGridPane(grid, col - startCol, row - startRow);
-                    textField.setText("");  // Dejar vacío el TextField
-                    textField.setEditable(true);  // Dejar el TextField editable
-                }
-            }
-        }
-    }
-    // Método auxiliar para obtener un nodo de un GridPane (TextField en este caso)
-    private Node getNodeFromGridPane(GridPane grid, int col, int row) {
-        for (Node node : grid.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-                return node;
-            }
-        }
-        return null;  // Si no se encuentra el nodo
-    }
-
     @FXML
     private void pressed() {
         buttonHelp.setStyle("-fx-background-color: #87CEEB;");
@@ -175,54 +191,6 @@ public class GameController {
     @FXML
     private void released() {
         buttonHelp.setStyle("-fx-background-color: #000080;");
-    }
-
-    private void provideHint() {
-        System.out.println("Buscando una celda vacía...");
-
-        // Crear un arreglo con los GridPanes
-        GridPane[] grids = {grid00, grid01, grid10, grid11, grid20, grid21};
-        Random rand = new Random();
-
-        // Barajar los GridPanes de manera aleatoria
-        for (int i = 0; i < grids.length; i++) {
-            int randomIndex = rand.nextInt(grids.length);
-            // Intercambiar los GridPanes aleatoriamente
-            GridPane temp = grids[i];
-            grids[i] = grids[randomIndex];
-            grids[randomIndex] = temp;
-        }
-
-        // Ahora recorrer cada GridPane con el orden aleatorio
-        for (GridPane grid : grids) {
-            ArrayList<Node> nodes = new ArrayList<>(grid.getChildren());
-
-            // Barajar las celdas dentro de cada GridPane de manera aleatoria
-            for (int i = 0; i < nodes.size(); i++) {
-                int randomIndex = rand.nextInt(nodes.size());
-                Node temp = nodes.get(i);
-                nodes.set(i, nodes.get(randomIndex));
-                nodes.set(randomIndex, temp);
-            }
-
-            // Recorrer las celdas barajadas dentro del GridPane
-            for (Node node : nodes) {
-                if (node instanceof TextField) {
-                    TextField textField = (TextField) node;
-
-                    // Verificar si la celda está vacía
-                    if (textField.getText().isEmpty()) {
-                        // Proporcionamos una sugerencia para la celda vacía
-                        textField.setText("0"); // Solo un ejemplo
-                        textField.setEditable(false);  // Bloquear la celda
-                        System.out.println("Sugerencia proporcionada en una celda vacía.");
-                        return;  // Salir después de encontrar la primera celda vacía
-                    }
-                }
-            }
-        }
-
-        System.out.println("No se encontraron celdas vacías.");
     }
 
 

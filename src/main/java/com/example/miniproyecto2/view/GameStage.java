@@ -31,7 +31,7 @@ public class GameStage extends Stage {
      */
     public GameStage() throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/miniproyecto2/game-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/miniproyecto2/game-view1.fxml"));
         Parent root = loader.load();
         gameController = loader.getController();
         Scene scene = new Scene(root,605,676);
