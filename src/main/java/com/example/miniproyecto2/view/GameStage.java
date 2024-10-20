@@ -37,7 +37,7 @@ public class GameStage extends Stage {
         Scene scene = new Scene(root,605,676);
         setScene(scene);
 
-        setTitle("Sol eclipsado");
+        setTitle("SUDOKU");
         getIcons().add(new Image(String.valueOf(getClass().getResource("/com/example/miniproyecto2/favicon.png"))));
         setResizable(false);
 
