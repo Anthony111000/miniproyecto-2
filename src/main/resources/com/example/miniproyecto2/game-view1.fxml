@@ -53,7 +53,7 @@
    <bottom>
       <VBox alignment="TOP_CENTER" prefHeight="130.0" prefWidth="559.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" text="Label" textFill="DARKRED">
+            <Label fx:id="statusLabel" alignment="CENTER" text="Label" textFill="DARKRED">
                <font>
                   <Font name="Comic Sans MS Bold" size="24.0" />
                </font>

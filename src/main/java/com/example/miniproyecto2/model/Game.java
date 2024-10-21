@@ -57,32 +57,33 @@ public class Game implements IGame {
 
     @Override
     public boolean isValidPlacement(ArrayList<ArrayList<Integer>> board, int row, int col, int number) {
-        // Verifica la fila
+        // Verificar si el número ya está en la fila
         for (int i = 0; i < 6; i++) {
-            if (board.get(row).get(i) == number) {
-                return false;
+            if (i != col && board.get(row).get(i) == number) {
+                return false; // Número ya está en la fila
             }
         }
 
-        // Verifica la columna
+        // Verificar si el número ya está en la columna
         for (int i = 0; i < 6; i++) {
-            if (board.get(i).get(col) == number) {
-                return false;
+            if (i != row && board.get(i).get(col) == number) {
+                return false; // Número ya está en la columna
             }
         }
 
-        // Verifica la subregión (bloque 2x3)
+        // Verificar si el número ya está en el bloque de 2x3
         int regionRowStart = (row / 2) * 2;
         int regionColStart = (col / 3) * 3;
 
         for (int i = regionRowStart; i < regionRowStart + 2; i++) {
             for (int j = regionColStart; j < regionColStart + 3; j++) {
-                if (board.get(i).get(j) == number) {
-                    return false;
+                if ((i != row || j != col) && board.get(i).get(j) == number) {
+                    return false; // Número ya está en el bloque 2x3
                 }
             }
         }
 
-        return true;  // El número es válido en esa posición
+        return true; // Número válido
     }
+
 }
