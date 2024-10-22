@@ -1,22 +1,22 @@
 package com.example.miniproyecto2;
 
 import com.example.miniproyecto2.view.GameStage;
-import com.example.miniproyecto2.view.GameStage;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
- * Main class for the "elSolEclipsado" application. This class extends {@link Application}
+ * Main class for the "SUDOKU" application. This class extends {@link Application}
  * and serves as the entry point for the JavaFX application.
  *
  * @author Jerson Alexis Ortiz Velasco
+ * @author Jhon Antony Murillo
  * @version 1.0
  * @since 1.0
  */
 public class Main extends Application {
 
     /**
-     * The main method of the for the "elSolEclipsado" application. This method is the entry point
+     * The main method of the for the "SUDOKU" application. This method is the entry point
      * when running the application from the command line or an IDE.
      *
      * @param args command-line arguments passed to the application

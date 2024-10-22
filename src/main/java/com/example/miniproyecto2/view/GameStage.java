@@ -9,10 +9,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * Represents the main stage of the game "elSolEclipsado".
+ * Represents the main stage of the game "SUDOKU".
  * This class is responsible for initializing and displaying the game window.
  *
  * @author Jerson Alexis Otiz Velasco
+ * @author Jhon Antony Murillo
  * @version 1.0
  * @since 1.0
  */

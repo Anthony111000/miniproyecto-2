@@ -1,6 +1,6 @@
+
 package com.example.miniproyecto2.view;
 
-import com.example.miniproyecto2.controller.GameController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,23 +9,19 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * Represents the main stage of the game "elSolEclipsado".
- * This class is responsible for initializing and displaying the game window.
+ * Represents the welcome stage of the "SUDOKU" application.
+ * This class is responsible for initializing and displaying the welcome view.
  *
  * @author Jerson Alexis Otiz Velasco
+ * @author Jhon Antony Murillo
  * @version 1.0
  * @since 1.0
  */
+
 public class WinnerStage extends Stage {
-    /**
-     * Controls the game logic and interactions.
-     * @serial
-     * @since 1.0
-     */
-    private GameController gameController;
 
     /**
-     * Constructs a new GameStage and initializes the game window.
+     * Constructs a new WelcomeStage and initializes its components.
      *
      * @throws IOException if the FXML file cannot be loaded.
      */
@@ -33,8 +29,7 @@ public class WinnerStage extends Stage {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/miniproyecto2/winner-view.fxml"));
         Parent root = loader.load();
-        gameController = loader.getController();
-        Scene scene = new Scene(root,605,676);
+        Scene scene = new Scene(root);
         setScene(scene);
 
         setTitle("SUDOKU");
@@ -44,50 +39,39 @@ public class WinnerStage extends Stage {
         show();
 
     }
-
     /**
-     * Returns the singleton instance of GameStage.
+     * Returns the singleton instance of WelcomeStage.
      *
-     * @return the singleton instance of GameStage.
+     * @return the singleton instance of WelcomeStage.
      * @throws IOException if the instance cannot be created.
-     * @see GameStageHolder
+     * @see WinnerStageHolder
      */
-    public static GameStage getInstance() throws IOException {
+    public static WinnerStage getInstance() throws IOException {
 
-        GameStageHolder.INSTANCE = GameStageHolder.INSTANCE != null ? GameStageHolder.INSTANCE : new GameStage();
-        return GameStageHolder.INSTANCE;
+        WinnerStageHolder.INSTANCE = WinnerStageHolder.INSTANCE != null ? WinnerStageHolder.INSTANCE : new WinnerStage();
+        return WinnerStageHolder.INSTANCE;
 
     }
 
     /**
-     * Deletes the singleton instance of GameStage.
+     * Deletes the singleton instance of WelcomeStage.
      */
     public static void deletedInstance() {
 
-        GameStageHolder.INSTANCE.close();
+        WinnerStageHolder.INSTANCE.close();
 
     }
 
     /**
-     * Returns the GameController associated with this stage.
-     *
-     * @return the GameController associated with this stage.
-     */
-    public GameController getGameController() {
-
-        return gameController;
-
-    }
-
-    /**
-     * Holds the singleton instance of GameStage.
+     * Holds the singleton instance of WelcomeStage.
      *
      * @since 1.0
      */
-    private static class GameStageHolder {
+    private static class WinnerStageHolder {
 
-        private static GameStage INSTANCE;
+        private static WinnerStage INSTANCE;
 
     }
 
 }
+
