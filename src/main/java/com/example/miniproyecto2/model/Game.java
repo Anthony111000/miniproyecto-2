@@ -3,6 +3,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 public class Game implements IGame {
+    private ArrayList<ArrayList<Integer>> currentBoard;
+
+    public Game() {
+        currentSudoku6x6();
+        // Inicializa 'board' con valores predeterminados
+    }
 
     // Implementación de la interfaz
     @Override
@@ -21,6 +27,33 @@ public class Game implements IGame {
             System.out.println("No se pudo generar un Sudoku válido.");
             return null;
         }
+    }
+
+    @Override
+    public ArrayList<ArrayList<Integer>> currentSudoku6x6() {
+        if (currentBoard == null) {
+            currentBoard = new ArrayList<>();
+            for (int i = 0; i < 6; i++) {
+                currentBoard.add(new ArrayList<>(Collections.nCopies(6, 0))); // Inicializa con ceros
+            }
+        }
+        return currentBoard;
+    }
+
+    @Override
+    public boolean updateCurrentBoard(int row, int col, int value) {
+        if (row >= 0 && row < 6 && col >= 0 && col < 6) {
+            // Usamos isValidPlacement para comprobar la validez del número
+            if (isValidPlacement(currentBoard, row, col, value)) {
+                currentBoard.get(row).set(col, value); // Actualiza el valor en currentBoard
+                System.out.println("Número " + value + " agregado en la posición (" + row + ", " + col + ")");
+                return true;
+            } else {
+                System.out.println("El número " + value + " no es válido en la posición (" + row + ", " + col + ")");
+                return false;
+            }
+        }
+        return false; // Retorna false si los índices están fuera de límites
     }
 
     @Override
@@ -57,33 +90,33 @@ public class Game implements IGame {
 
     @Override
     public boolean isValidPlacement(ArrayList<ArrayList<Integer>> board, int row, int col, int number) {
-        // Verificar si el número ya está en la fila
+        // Verifica la fila, omitiendo la posición actual
         for (int i = 0; i < 6; i++) {
-            if (i != col && board.get(row).get(i) == number) {
-                return false; // Número ya está en la fila
+            if (i != col && board.get(row).get(i) == number) { // Excluye la columna actual
+                return false;
             }
         }
 
-        // Verificar si el número ya está en la columna
+        // Verifica la columna, omitiendo la posición actual
         for (int i = 0; i < 6; i++) {
-            if (i != row && board.get(i).get(col) == number) {
-                return false; // Número ya está en la columna
+            if (i != row && board.get(i).get(col) == number) { // Excluye la fila actual
+                return false;
             }
         }
 
-        // Verificar si el número ya está en el bloque de 2x3
+        // Verifica la subregión (bloque 2x3), omitiendo la posición actual
         int regionRowStart = (row / 2) * 2;
         int regionColStart = (col / 3) * 3;
 
         for (int i = regionRowStart; i < regionRowStart + 2; i++) {
             for (int j = regionColStart; j < regionColStart + 3; j++) {
-                if ((i != row || j != col) && board.get(i).get(j) == number) {
-                    return false; // Número ya está en el bloque 2x3
+                if ((i != row || j != col) && board.get(i).get(j) == number) { // Excluye la posición actual
+                    return false;
                 }
             }
         }
 
-        return true; // Número válido
+        return true;  // El número es válido en esa posición
     }
 
 }
