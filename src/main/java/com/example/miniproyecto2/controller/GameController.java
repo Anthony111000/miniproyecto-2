@@ -33,8 +33,8 @@ public class GameController {
     private void handleButtonClick() {
         //System.out.println("El botón Ayuda fue presionado");
         //printSudokuBoard(game.getCurrentSudoku6x6());
-       // help();
-       helpOrder();
+        help();
+       //helpOrder();
 
     }
     public void initialize() {
@@ -46,18 +46,15 @@ public class GameController {
 
 
         createAndAssignTextFieldsToBoard(game.generateSudoku6x6());
-        printSudokuBoard(game.getcurrentSudoku6x6());
+       // printSudokuBoard(game.getcurrentSudoku6x6());
         game.currentSudoku6x6();
-        printSudokuBoard(game.getcurrentSudoku6x6());
+       // printSudokuBoard(game.getcurrentSudoku6x6());
         setTextFieldInputHandler();
 
     }
 
     private void help() {
         Random random = new Random();
-
-        // Definir la frecuencia del 1 al 6
-        int[] frequency = {1, 2, 3, 4, 5, 6};  // Puedes ajustar esto según la frecuencia que desees
 
         // Realiza un máximo de 36 intentos (uno por cada celda en un tablero 6x6)
         for (int i = 0; i < 36; i++) {
@@ -70,25 +67,20 @@ public class GameController {
 
             // Verifica si el TextField está vacío
             if (textField != null && textField.getText().isEmpty()) {
-                // Iterar sobre los números en la frecuencia
-                for (int number : frequency) {
+                // Iterar sobre los números del 1 al 6
+                for (int number = 1; number <= 6; number++) {
                     // Valida si el número puede ser colocado en la posición (row, col)
                     if (game.isValidPlacement(game.getcurrentSudoku6x6(), row, col, number)) {
                         // Si es válido, establece el número en el TextField
                         textField.setText(String.valueOf(number));
                         textField.setStyle("-fx-border-color: green; -fx-border-width: 2px;"); // Resalta el TextField
                         return; // Sale del método después de establecer el número
-                    } else {
-                        System.out.println("El número " + number + " no es válido para la posición (row=" + row + ", col=" + col + ")");
                     }
                 }
             }
         }
         // Si no se encuentra ningún TextField vacío
-
     }
-
-
     private void helpOrder() {
         // Iterar sobre cada fila y columna para encontrar un TextField vacío
         for (int row = 0; row < 6; row++) {
