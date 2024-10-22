@@ -31,24 +31,10 @@ public class GameController {
 
     @FXML
     private void handleButtonClick() {
-        System.out.println("El botón Ayuda fue presionado");
-
-
-        //   provideHint();
-      /*  for (int row = 0; row <= 5; row++) {
-            Line line = new Line(0, row * 50, 300, row * 50);  // Línea horizontal
-            line.setStroke(Color.BLACK);
-            line.setStrokeWidth(2);  // Grosor de la línea
-            board.getChildren().add(line);
-        }
-
-// Añadir líneas verticales
-        for (int col = 0    ; col <= 5; col++) {
-            Line line = new Line(col * 50, 0, col * 50, 300);  // Línea vertical
-            line.setStroke(Color.BLACK);
-            line.setStrokeWidth(2);  // Grosor de la línea
-            board.getChildren().add(line);
-        }*/
+        //System.out.println("El botón Ayuda fue presionado");
+        //printSudokuBoard(game.getCurrentSudoku6x6());
+       // help();
+       helpOrder();
 
     }
     public void initialize() {
@@ -56,16 +42,89 @@ public class GameController {
         game = new Game();
         Random rand = new Random();
 
-        ArrayList<ArrayList<Integer>> sudokuBoard = game.generateSudoku6x6();
+       // ArrayList<ArrayList<Integer>> sudokuBoard = game.generateSudoku6x6();
 
-        printSudokuBoard(sudokuBoard);
-        createAndAssignTextFieldsToBoard(sudokuBoard);
+
+        createAndAssignTextFieldsToBoard(game.generateSudoku6x6());
+        printSudokuBoard(game.getcurrentSudoku6x6());
+        game.currentSudoku6x6();
+        printSudokuBoard(game.getcurrentSudoku6x6());
+        setTextFieldInputHandler();
 
     }
 
+    private void help() {
+        Random random = new Random();
+
+        // Definir la frecuencia del 1 al 6
+        int[] frequency = {1, 2, 3, 4, 5, 6};  // Puedes ajustar esto según la frecuencia que desees
+
+        // Realiza un máximo de 36 intentos (uno por cada celda en un tablero 6x6)
+        for (int i = 0; i < 36; i++) {
+            // Genera índices aleatorios para fila y columna
+            int row = random.nextInt(6);
+            int col = random.nextInt(6);
+
+            // Obtiene el TextField en la posición (row, col)
+            TextField textField = (TextField) getNodeFromGridPane(board, col, row);
+
+            // Verifica si el TextField está vacío
+            if (textField != null && textField.getText().isEmpty()) {
+                // Iterar sobre los números en la frecuencia
+                for (int number : frequency) {
+                    // Valida si el número puede ser colocado en la posición (row, col)
+                    if (game.isValidPlacement(game.getcurrentSudoku6x6(), row, col, number)) {
+                        // Si es válido, establece el número en el TextField
+                        textField.setText(String.valueOf(number));
+                        textField.setStyle("-fx-border-color: green; -fx-border-width: 2px;"); // Resalta el TextField
+                        return; // Sale del método después de establecer el número
+                    } else {
+                        System.out.println("El número " + number + " no es válido para la posición (row=" + row + ", col=" + col + ")");
+                    }
+                }
+            }
+        }
+        // Si no se encuentra ningún TextField vacío
+
+    }
+
+
+    private void helpOrder() {
+        // Iterar sobre cada fila y columna para encontrar un TextField vacío
+        for (int row = 0; row < 6; row++) {
+            for (int col = 0; col < 6; col++) {
+                // Obtiene el TextField en la posición (row, col)
+                TextField textField = (TextField) getNodeFromGridPane(board, col, row);
+
+                // Verifica si el TextField está vacío
+                if (textField != null && textField.getText().isEmpty()) {
+                    // Intentar colocar un número válido entre 1 y 6
+                    for (int number = 1; number <= 6; number++) {
+                        // Verifica si el número puede ser colocado en la posición (row, col)
+                        if (game.isValidPlacementWithFutureCheck(game.getcurrentSudoku6x6(), row, col, number)) {
+                            // Si es válido, establece el número en el TextField
+                            textField.setText(String.valueOf(number));
+                            textField.setStyle("-fx-border-color: green; -fx-border-width: 2px;"); // Resalta el TextField
+                            System.out.println("Se ha llenado el TextField en (row=" + row + ", col=" + col + ") con el número: " + number);
+                            return; // Sale del método después de establecer el número
+                        }
+                    }
+                    // Si se intentaron todos los números y no se pudo colocar ninguno, imprimir un mensaje
+                    System.out.println("No se pudo colocar ningún número en (row=" + row + ", col=" + col + ")");
+                }
+            }
+        }
+
+        // Si no se encuentra ningún TextField vacío
+        System.out.println("No hay TextFields vacíos.");
+    }
+
+
+
+
     private void printCurrentBoard() {
         System.out.println("Estado actual de currentBoard desde GameController:");
-        for (ArrayList<Integer> row : game.currentSudoku6x6()) {
+        for (ArrayList<Integer> row : game.getcurrentSudoku6x6()) {
             for (Integer value : row) {
                 System.out.print(value + " ");
             }
@@ -139,18 +198,20 @@ public class GameController {
             String newText = change.getControlNewText();
             // Verifica si el nuevo texto es un número entre 1 y 6 o está vacío
             if (newText.matches("[1-6]") || newText.isEmpty()) {
+
                 int value = newText.isEmpty() ? 0 : Integer.parseInt(newText); // Convertir el texto a número
 
                 // Llama al método en la clase Game para actualizar currentBoard
                 boolean isUpdated = game.updateCurrentBoard(row, col, value);
-                printCurrentBoard();
+               // printCurrentBoard();
 
                 // Imprime la fila, columna y valor ingresado
-                System.out.println("Fila: " + row + ", Columna: " + col + ", Valor ingresado: " + value);
+              //  System.out.println("Fila: " + row + ", Columna: " + col + ", Valor ingresado: " + value);
 
                 for (Node node : board.getChildren()) {
                     if (node instanceof TextField) {
-                        node.setStyle(""); // O estilo por defecto
+                        node.setStyle("");
+                        // O estilo por defecto
                     }
                 }
 
@@ -163,6 +224,7 @@ public class GameController {
                     // Resetea el estilo si es válido
                     change.getControl().setStyle(""); // O puedes usar el estilo por defecto
                     statusLabel.setText("");
+
                 }
 
                 return change; // Acepta el cambio
@@ -170,6 +232,31 @@ public class GameController {
 
             return null; // Rechaza cualquier valor que no esté en el rango 1-6
         });
+    }
+    public void winner() {
+        ArrayList<ArrayList<Integer>> currentBoard = game.getcurrentSudoku6x6();
+
+        // Barrido por todas las celdas del tablero
+        for (int row = 0; row < 6; row++) {
+            for (int col = 0; col < 6; col++) {
+                int number = currentBoard.get(row).get(col);
+
+                // Verifica si la celda está vacía
+                if (number == 0) {
+                  //  System.out.println("El tablero no está completo. Faltan números.");
+                    return; // Salir si hay al menos una celda vacía
+                }
+
+                // Valida si el número es válido en la posición actual
+                if (!game.isValidPlacement(currentBoard, row, col, number)) {
+                  //  System.out.println("El número en (row=" + row + ", col=" + col + ") no es válido.");
+                    return; // Salir si encuentra un número no válido
+                }
+            }
+        }
+
+        // Si todas las celdas son válidas
+        System.out.println("¡Ganaste!");
     }
 
 
@@ -202,6 +289,18 @@ public class GameController {
         return null;
     }
 
+    private void setTextFieldInputHandler() {
+        // Iterar sobre todos los TextFields en el GridPane
+        for (Node node : board.getChildren()) {
+            if (node instanceof TextField) {
+                TextField textField = (TextField) node;
+                textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                    //System.out.println("Se ha tecleado en un TextField.");
+                    winner();
+                });
+            }
+        }
+    }
 
 
     public static void printSudokuBoard(ArrayList<ArrayList<Integer>> sudokuBoard) {

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="405.0" style="-fx-background-color: #FFFACD 50% 100%;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproyecto2.controller.GameController">
+   <top>
+      <ImageView fitHeight="100.0" fitWidth="229.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_CENTER">
+         <image>
+            <Image url="@sudokuLogo.gif" />
+         </image>
+         <BorderPane.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </BorderPane.margin>
+      </ImageView>
+   </top>
+   <right>
+      <Pane prefHeight="255.0" prefWidth="46.0" BorderPane.alignment="CENTER" />
+   </right>
+   <left>
+      <Pane prefHeight="255.0" prefWidth="50.0" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <ImageView fitHeight="184.0" fitWidth="330.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@winnerImagen.gif" />
+         </image>
+      </ImageView>
+   </center>
+</BorderPane>

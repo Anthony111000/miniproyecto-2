@@ -16,7 +16,7 @@ import java.io.IOException;
  * @version 1.0
  * @since 1.0
  */
-public class GameStage extends Stage {
+public class WinnerStage extends Stage {
     /**
      * Controls the game logic and interactions.
      * @serial
@@ -29,9 +29,9 @@ public class GameStage extends Stage {
      *
      * @throws IOException if the FXML file cannot be loaded.
      */
-    public GameStage() throws IOException {
+    public WinnerStage() throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/miniproyecto2/game-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/miniproyecto2/winner-view.fxml"));
         Parent root = loader.load();
         gameController = loader.getController();
         Scene scene = new Scene(root,605,676);
