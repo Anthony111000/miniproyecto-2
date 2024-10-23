@@ -46,13 +46,12 @@ public class GameController {
     if(counterHelp++<6) {
         help();
 
-    }else{
-        statusLabel.setText("No tienes mas intentos");
+    } else {
+        statusLabel.setText("No quedan más intentos");
     }
 
     }
     public void initialize() {
-
         counterHelp=0;
         game = new Game();
         Random rand = new Random();

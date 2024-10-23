@@ -1,15 +1,15 @@
 package com.example.miniproyecto2.model;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class Game implements IGame {
+public class Game extends GameAdapter {
     private ArrayList<ArrayList<Integer>> currentBoard;
 
     public Game() {
         currentSudoku6x6();
     }
-
 
     @Override
     public ArrayList<ArrayList<Integer>> generateSudoku6x6() {
@@ -19,18 +19,19 @@ public class Game implements IGame {
         return currentBoard;
     }
 
-
     @Override
     public ArrayList<ArrayList<Integer>> currentSudoku6x6() {
         currentBoard = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            currentBoard.add(new ArrayList<>(Collections.nCopies(6, 0))); //
+            currentBoard.add(new ArrayList<>(Collections.nCopies(6, 0)));
         }
         return currentBoard;
     }
 
+    // Sobrescribir correctamente el método para devolver el tablero actual
+    @Override
     public ArrayList<ArrayList<Integer>> getcurrentSudoku6x6() {
-    return currentBoard;
+        return currentBoard;
     }
 
     @Override
@@ -47,7 +48,6 @@ public class Game implements IGame {
     @Override
     public boolean fillBoard(ArrayList<ArrayList<Integer>> board) {
         Random random = new Random();
-
         for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 6; col++) {
                 if (board.get(row).get(col) == 0) {
@@ -56,7 +56,6 @@ public class Game implements IGame {
                         shuffledNumbers.add(num);
                     }
                     Collections.shuffle(shuffledNumbers, random);
-
                     for (int number : shuffledNumbers) {
                         if (isValidPlacement(board, row, col, number)) {
                             board.get(row).set(col, number);
@@ -73,23 +72,19 @@ public class Game implements IGame {
         return true;
     }
 
-
     @Override
     public boolean isValidPlacement(ArrayList<ArrayList<Integer>> board, int row, int col, int number) {
-
         for (int i = 0; i < 6; i++) {
             if (i != col && board.get(row).get(i) == number) {
                 return false;
             }
         }
 
-
         for (int i = 0; i < 6; i++) {
             if (i != row && board.get(i).get(col) == number) {
                 return false;
             }
         }
-
 
         int regionRowStart = (row / 2) * 2;
         int regionColStart = (col / 3) * 3;
@@ -101,7 +96,6 @@ public class Game implements IGame {
                 }
             }
         }
-
         return true;
     }
 }
