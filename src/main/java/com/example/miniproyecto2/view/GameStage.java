@@ -9,17 +9,19 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * Represents the main stage of the game "SUDOKU".
+ * Class representing the main stage of the game "SUDOKU".
  * This class is responsible for initializing and displaying the game window.
  *
- * @author Jerson Alexis Otiz Velasco
- * @author Jhon Antony Murillo
+ * @author Jerson Alexis Ortiz Velasco
+ * @author Jhon Antony Murillo Olave
  * @version 1.0
  * @since 1.0
  */
 public class GameStage extends Stage {
     /**
      * Controls the game logic and interactions.
+     * This field is automatically set via the FXML loader.
+     *
      * @serial
      * @since 1.0
      */

@@ -9,7 +9,7 @@ import javafx.stage.Stage;
  * and serves as the entry point for the JavaFX application.
  *
  * @author Jerson Alexis Ortiz Velasco
- * @author Jhon Antony Murillo
+ * @author Jhon Antony Murillo Olave
  * @version 1.0
  * @since 1.0
  */

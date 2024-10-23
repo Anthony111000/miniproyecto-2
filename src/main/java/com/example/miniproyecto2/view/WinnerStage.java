@@ -1,4 +1,3 @@
-
 package com.example.miniproyecto2.view;
 
 import javafx.fxml.FXMLLoader;
@@ -9,11 +8,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * Represents the welcome stage of the "SUDOKU" application.
- * This class is responsible for initializing and displaying the welcome view.
+ * Class representing the winner stage of the "SUDOKU" application.
+ * This class is responsible for initializing and displaying the winner view.
  *
- * @author Jerson Alexis Otiz Velasco
- * @author Jhon Antony Murillo
+ * @author Jerson Alexis Ortiz Velasco
+ * @author Jhon Antony Murillo Olave
  * @version 1.0
  * @since 1.0
  */
@@ -40,9 +39,9 @@ public class WinnerStage extends Stage {
 
     }
     /**
-     * Returns the singleton instance of WelcomeStage.
+     * Returns the singleton instance of WinnerStage.
      *
-     * @return the singleton instance of WelcomeStage.
+     * @return the singleton instance of WinnerStage.
      * @throws IOException if the instance cannot be created.
      * @see WinnerStageHolder
      */
@@ -54,7 +53,7 @@ public class WinnerStage extends Stage {
     }
 
     /**
-     * Deletes the singleton instance of WelcomeStage.
+     * Deletes the singleton instance of WinnerStage.
      */
     public static void deletedInstance() {
 
@@ -63,12 +62,11 @@ public class WinnerStage extends Stage {
     }
 
     /**
-     * Holds the singleton instance of WelcomeStage.
+     * Holds the singleton instance of WinnerStage.
      *
      * @since 1.0
      */
     private static class WinnerStageHolder {
-
         private static WinnerStage INSTANCE;
 
     }

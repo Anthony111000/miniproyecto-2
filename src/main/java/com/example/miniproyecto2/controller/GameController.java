@@ -9,17 +9,24 @@ import javafx.scene.control.*;
 import com.example.miniproyecto2.model.Game;
 import javafx.scene.layout.GridPane;
 
-
 import java.io.IOException;
 import java.util.Random;
 import java.util.ArrayList;
 
-
+/**
+ * Class representing the controller for the Sudoku game. This class handles the
+ * game logic, user interactions, and updating the game state in the user interface.
+ * It manages the Sudoku board, user inputs, and helps the player with hints.
+ *
+ * @author Jerson Alexis Ortiz Velasco
+ * @author Jhon Antony Murillo Olave
+ * @version 1.0
+ * @since 1.0
+ */
 public class GameController {
 
     private Game game;
     private int counterHelp;
-
 
     @FXML
     private GridPane board;
@@ -30,29 +37,40 @@ public class GameController {
     @FXML
     private Label statusLabel;
 
+    /**
+     * Called when the help button is pressed. Changes the button's style to indicate it is pressed.
+     */
     @FXML
     private void pressed() {
         buttonHelp.setStyle("-fx-background-color: #87CEEB;");
     }
 
+    /**
+     * Called when the help button is released. Changes the button's style back to the default.
+     */
     @FXML
     private void released() {
         buttonHelp.setStyle("-fx-background-color: #000080;");
     }
 
+    /**
+     * Handles the action when the help button is clicked. Provides hints to the player
+     * up to a maximum number of attempts.
+     */
     @FXML
     private void handleButtonClick() {
-
-    if(counterHelp++<6) {
-        help();
-
-    } else {
-        statusLabel.setText("No quedan más intentos");
+        if (counterHelp++ < 6) {
+            help();
+        } else {
+            statusLabel.setText("No quedan más intentos");
+        }
     }
 
-    }
+    /**
+     * Initializes the game by setting up the Sudoku board and other components.
+     */
     public void initialize() {
-        counterHelp=0;
+        counterHelp = 0;
         game = new Game();
         Random rand = new Random();
 
@@ -61,18 +79,17 @@ public class GameController {
         }
 
         createAndAssignTextFieldsToBoard(game.generateSudoku6x6());
-
-        //printSudokuBoard(game.getcurrentSudoku6x6());
-
         game.currentSudoku6x6();
         setTextFieldInputHandler();
-        Tooltip tooltip = new Tooltip("Oprimir para obtener sugerencia");;
+        Tooltip tooltip = new Tooltip("Oprimir para obtener una sugerencia");
         buttonHelp.setTooltip(tooltip);
-
-
-
     }
 
+    /**
+     * Prints the current Sudoku board to the console for debugging purposes.
+     *
+     * @param sudokuBoard the Sudoku board to print.
+     */
     public static void printSudokuBoard(ArrayList<ArrayList<Integer>> sudokuBoard) {
         for (ArrayList<Integer> row : sudokuBoard) {
             for (Integer value : row) {
@@ -82,12 +99,13 @@ public class GameController {
         }
     }
 
+    /**
+     * Provides a hint by filling an empty cell with a valid number.
+     */
     private void help() {
         Random random = new Random();
 
-
         for (int i = 0; i < 36; i++) {
-
             int row = random.nextInt(6);
             int col = random.nextInt(6);
 
@@ -105,19 +123,18 @@ public class GameController {
         }
     }
 
-
+    /**
+     * Creates and assigns TextField components to the Sudoku board based on the generated Sudoku values.
+     *
+     * @param sudokuBoard the Sudoku board containing the initial values.
+     */
     private void createAndAssignTextFieldsToBoard(ArrayList<ArrayList<Integer>> sudokuBoard) {
-
         board.getChildren().clear();
-
         Random rand = new Random();
-
 
         for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 6; col++) {
-
                 TextField textField = new TextField();
-
                 textField.setPrefWidth(80);
                 textField.setPrefHeight(80);
                 textField.setAlignment(Pos.CENTER);
@@ -129,13 +146,10 @@ public class GameController {
             }
         }
 
-
         for (int blockRow = 0; blockRow < 3; blockRow++) {
             for (int blockCol = 0; blockCol < 2; blockCol++) {
-
                 int startRow = blockRow * 2;
                 int startCol = blockCol * 3;
-
 
                 int[] positions = getRandomPositionsInBlock(startRow, startCol);
 
@@ -145,17 +159,21 @@ public class GameController {
 
                     int value = sudokuBoard.get(row).get(col);
 
-
                     TextField textField = (TextField) getNodeFromGridPane(board, col, row);
                     textField.setText(String.valueOf(value));
-
                     textField.setEditable(false);
                 }
             }
         }
-
     }
 
+    /**
+     * Creates a text formatter for the input fields to restrict input to valid Sudoku numbers (1-6).
+     *
+     * @param row the row index of the text field.
+     * @param col the column index of the text field.
+     * @return a TextFormatter that controls input validation.
+     */
     private TextFormatter<String> createTextFormatter(int row, int col) {
         return new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
@@ -168,15 +186,14 @@ public class GameController {
 
                 for (Node node : board.getChildren()) {
                     if (node instanceof TextField) {
-                        node.setStyle("-fx-font-size: 30px; -fx-font-weight: bold;"); // Asegúrate de que todos mantengan el estilo
+                        node.setStyle("-fx-font-size: 30px; -fx-font-weight: bold;"); // Ensure all fields maintain style
                     }
                 }
 
                 if (!isUpdated && value != 0) {
                     change.getControl().setStyle("-fx-border-color: red; -fx-border-width: 2px; -fx-font-size: 30px; -fx-font-weight: bold;");
-                    statusLabel.setText("¡¡Numero invalido!!");
+                    statusLabel.setText("¡¡¡Número inválido!!!");
                 } else {
-
                     statusLabel.setText("");
                 }
                 return change;
@@ -185,6 +202,9 @@ public class GameController {
         });
     }
 
+    /**
+     * Checks if the player has won the game by validating the current board state.
+     */
     public void winner() {
         ArrayList<ArrayList<Integer>> currentBoard = game.getcurrentSudoku6x6();
 
@@ -193,17 +213,20 @@ public class GameController {
                 int number = currentBoard.get(row).get(col);
 
                 if (number == 0) {
-                    return;
+                    return; // Still empty cells
                 }
                 if (!game.isValidPlacement(currentBoard, row, col, number)) {
-                    return;
+                    return; // Invalid placement found
                 }
             }
         }
 
-        windowChange();
-
+        windowChange(); // Trigger the winner stage
     }
+
+    /**
+     * Changes the current window to the winner stage.
+     */
     public void windowChange() {
         GameStage.deletedInstance();
         try {
@@ -213,6 +236,13 @@ public class GameController {
         }
     }
 
+    /**
+     * Gets random positions within a 2x3 block for initial placement of numbers.
+     *
+     * @param startRow the starting row index of the block.
+     * @param startCol the starting column index of the block.
+     * @return an array containing two random positions in the specified block.
+     */
     private int[] getRandomPositionsInBlock(int startRow, int startCol) {
         Random rand = new Random();
 
@@ -226,10 +256,17 @@ public class GameController {
         int pos1 = positions.remove(rand.nextInt(positions.size()));
         int pos2 = positions.remove(rand.nextInt(positions.size()));
 
-        return new int[] { pos1, pos2 };
+        return new int[]{pos1, pos2};
     }
 
-
+    /**
+     * Retrieves a node from the GridPane at the specified column and row.
+     *
+     * @param gridPane the GridPane from which to retrieve the node.
+     * @param col      the column index of the node.
+     * @param row      the row index of the node.
+     * @return the node at the specified position, or null if not found.
+     */
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
@@ -239,6 +276,9 @@ public class GameController {
         return null;
     }
 
+    /**
+     * Sets an input handler for each text field to check for win conditions upon text change.
+     */
     private void setTextFieldInputHandler() {
         for (Node node : board.getChildren()) {
             if (node instanceof TextField) {
@@ -249,6 +289,4 @@ public class GameController {
             }
         }
     }
-
-
 }
