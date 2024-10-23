@@ -35,7 +35,7 @@ public class GameStage extends Stage {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/miniproyecto2/game-view.fxml"));
         Parent root = loader.load();
         gameController = loader.getController();
-        Scene scene = new Scene(root,605,676);
+        Scene scene = new Scene(root);
         setScene(scene);
 
         setTitle("SUDOKU");

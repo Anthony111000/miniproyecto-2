@@ -6,15 +6,15 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="279.0" prefWidth="405.0" style="-fx-background-color: #FFFACD 50% 100%;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproyecto2.controller.GameController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="569.0" style="-fx-background-color: #FFFACD 50% 100%;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproyecto2.controller.GameController">
    <top>
-      <ImageView fitHeight="100.0" fitWidth="229.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_CENTER">
-         <image>
-            <Image url="@sudokuLogo.gif" />
-         </image>
+      <ImageView fitHeight="203.0" fitWidth="219.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="TOP_CENTER">
          <BorderPane.margin>
-            <Insets bottom="10.0" top="10.0" />
+            <Insets top="10.0" />
          </BorderPane.margin>
+         <image>
+            <Image url="@trophyImagen.gif" />
+         </image>
       </ImageView>
    </top>
    <right>

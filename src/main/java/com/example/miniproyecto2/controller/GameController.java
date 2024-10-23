@@ -5,11 +5,8 @@ import com.example.miniproyecto2.view.WinnerStage;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import com.example.miniproyecto2.model.Game;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
 
 
@@ -21,6 +18,8 @@ import java.util.ArrayList;
 public class GameController {
 
     private Game game;
+    private int counterHelp;
+
 
     @FXML
     private GridPane board;
@@ -44,25 +43,44 @@ public class GameController {
     @FXML
     private void handleButtonClick() {
 
+    if(counterHelp++<6) {
         help();
-        //helpOrder();
+
+    }else{
+        statusLabel.setText("No tienes mas intentos");
+    }
 
     }
     public void initialize() {
 
+        counterHelp=0;
         game = new Game();
         Random rand = new Random();
+
         if (board == null) {
             return;
         }
 
-
-
         createAndAssignTextFieldsToBoard(game.generateSudoku6x6());
-        printSudokuBoard(game.getcurrentSudoku6x6());
+
+        //printSudokuBoard(game.getcurrentSudoku6x6());
+
         game.currentSudoku6x6();
         setTextFieldInputHandler();
+        Tooltip tooltip = new Tooltip("Oprimir para obtener sugerencia");;
+        buttonHelp.setTooltip(tooltip);
 
+
+
+    }
+
+    public static void printSudokuBoard(ArrayList<ArrayList<Integer>> sudokuBoard) {
+        for (ArrayList<Integer> row : sudokuBoard) {
+            for (Integer value : row) {
+                System.out.print(value + " ");
+            }
+            System.out.println();
+        }
     }
 
     private void help() {
@@ -80,7 +98,7 @@ public class GameController {
                 for (int number = 1; number <= 6; number++) {
                     if (game.isValidPlacement(game.getcurrentSudoku6x6(), row, col, number)) {
                         textField.setText(String.valueOf(number));
-                        textField.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+                        textField.setStyle("-fx-border-color: green; -fx-border-width: 2px;-fx-font-size: 30px; -fx-font-weight: bold;");
                         return;
                     }
                 }
@@ -100,6 +118,7 @@ public class GameController {
             for (int col = 0; col < 6; col++) {
 
                 TextField textField = new TextField();
+
                 textField.setPrefWidth(80);
                 textField.setPrefHeight(80);
                 textField.setAlignment(Pos.CENTER);
@@ -142,24 +161,23 @@ public class GameController {
         return new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
 
-            if (newText.matches("[1-6]") || newText.isEmpty()) {
+            change.getControl().setStyle("-fx-font-size: 30px; -fx-font-weight: bold;");
 
+            if (newText.matches("[1-6]") || newText.isEmpty()) {
                 int value = newText.isEmpty() ? 0 : Integer.parseInt(newText);
                 boolean isUpdated = game.updateCurrentBoard(row, col, value);
 
                 for (Node node : board.getChildren()) {
                     if (node instanceof TextField) {
-                        node.setStyle("");
+                        node.setStyle("-fx-font-size: 30px; -fx-font-weight: bold;"); // Asegúrate de que todos mantengan el estilo
                     }
                 }
 
-                if (!isUpdated && value !=0) {
-
-                    change.getControl().setStyle("-fx-border-color: red;  -fx-border-width: 2px;");
+                if (!isUpdated && value != 0) {
+                    change.getControl().setStyle("-fx-border-color: red; -fx-border-width: 2px; -fx-font-size: 30px; -fx-font-weight: bold;");
                     statusLabel.setText("¡¡Numero invalido!!");
                 } else {
 
-                    change.getControl().setStyle("");
                     statusLabel.setText("");
                 }
                 return change;
@@ -233,12 +251,5 @@ public class GameController {
         }
     }
 
-    public static void printSudokuBoard(ArrayList<ArrayList<Integer>> sudokuBoard) {
-        for (ArrayList<Integer> row : sudokuBoard) {
-            for (Integer value : row) {
-                System.out.print(value + " ");
-            }
-            System.out.println();
-        }
-    }
+
 }
