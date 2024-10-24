@@ -318,9 +318,6 @@ public class GameController {
     }
 
 
-
-
-
     /**
      * Retrieves a node from the GridPane at the specified column and row.
      *
@@ -330,6 +327,7 @@ public class GameController {
      * @return the node at the specified position, or null if not found.
      * @since 1.0
      */
+
     public Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {

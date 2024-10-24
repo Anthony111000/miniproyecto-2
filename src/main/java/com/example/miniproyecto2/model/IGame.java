@@ -65,7 +65,6 @@ public interface IGame {
      * Retrieves the current Sudoku board for further processing.
      *
      * @return a 2D ArrayList representing the current Sudoku board.
-     *  @since 1.0
      */
     ArrayList<ArrayList<Integer>> getcurrentSudoku6x6();
 }
