@@ -17,6 +17,7 @@ public interface IGame {
      * Generates a new 6x6 Sudoku board with an initial setup of numbers.
      *
      * @return a 2D ArrayList representing the generated Sudoku board.
+     *  @since 1.0
      */
     ArrayList<ArrayList<Integer>> generateSudoku6x6();
 
@@ -24,6 +25,7 @@ public interface IGame {
      * Retrieves the current state of the 6x6 Sudoku board.
      *
      * @return a 2D ArrayList representing the current Sudoku board.
+     *  @since 1.0
      */
     ArrayList<ArrayList<Integer>> currentSudoku6x6();
 
@@ -34,6 +36,7 @@ public interface IGame {
      * @param col   the column of the board to update.
      * @param value the new value to place at the specified position.
      * @return true if the update is valid, false otherwise.
+     *  @since 1.0
      */
     boolean updateCurrentBoard(int row, int col, int value);
 
@@ -42,6 +45,7 @@ public interface IGame {
      *
      * @param board the Sudoku board to be filled.
      * @return true if the board is successfully filled, false otherwise.
+     *  @since 1.0
      */
     boolean fillBoard(ArrayList<ArrayList<Integer>> board);
 
@@ -53,6 +57,7 @@ public interface IGame {
      * @param col    the column to check.
      * @param number the number to validate.
      * @return true if the placement is valid, false otherwise.
+     *  @since 1.0
      */
     boolean isValidPlacement(ArrayList<ArrayList<Integer>> board, int row, int col, int number);
 
@@ -60,6 +65,7 @@ public interface IGame {
      * Retrieves the current Sudoku board for further processing.
      *
      * @return a 2D ArrayList representing the current Sudoku board.
+     *  @since 1.0
      */
     ArrayList<ArrayList<Integer>> getcurrentSudoku6x6();
 }

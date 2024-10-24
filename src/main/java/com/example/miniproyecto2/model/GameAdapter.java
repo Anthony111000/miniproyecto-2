@@ -18,6 +18,7 @@ public abstract class GameAdapter implements IGame {
      * Generates a new 6x6 Sudoku board with an initial setup of numbers.
      *
      * @return an empty 2D ArrayList representing the generated Sudoku board.
+     *  @since 1.0
      */
     @Override
     public ArrayList<ArrayList<Integer>> generateSudoku6x6() {
@@ -28,6 +29,7 @@ public abstract class GameAdapter implements IGame {
      * Retrieves the current state of the 6x6 Sudoku board.
      *
      * @return an empty 2D ArrayList representing the current Sudoku board.
+     *  @since 1.0
      */
     @Override
     public ArrayList<ArrayList<Integer>> currentSudoku6x6() {
@@ -41,6 +43,7 @@ public abstract class GameAdapter implements IGame {
      * @param col   the column of the board to update.
      * @param value the new value to place at the specified position.
      * @return false indicating that the update operation is not implemented.
+     *  @since 1.0
      */
     @Override
     public boolean updateCurrentBoard(int row, int col, int value) {
@@ -52,6 +55,7 @@ public abstract class GameAdapter implements IGame {
      *
      * @param board the Sudoku board to be filled.
      * @return false indicating that the filling operation is not implemented.
+     *  @since 1.0
      */
     @Override
     public boolean fillBoard(ArrayList<ArrayList<Integer>> board) {
@@ -66,6 +70,7 @@ public abstract class GameAdapter implements IGame {
      * @param col    the column to check.
      * @param number the number to validate.
      * @return false indicating that the placement validation is not implemented.
+     *  @since 1.0
      */
     @Override
     public boolean isValidPlacement(ArrayList<ArrayList<Integer>> board, int row, int col, int number) {
@@ -76,6 +81,7 @@ public abstract class GameAdapter implements IGame {
      * Retrieves the current Sudoku board for further processing.
      *
      * @return an empty 2D ArrayList representing the current Sudoku board.
+     *  @since 1.0
      */
     @Override
     public ArrayList<ArrayList<Integer>> getcurrentSudoku6x6() {

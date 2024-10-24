@@ -27,6 +27,7 @@ public class Game extends GameAdapter {
      * Generates a new 6x6 Sudoku board if possible.
      *
      * @return the current Sudoku board after generation.
+     * @since 1.0
      */
     @Override
     public ArrayList<ArrayList<Integer>> generateSudoku6x6() {
@@ -40,6 +41,7 @@ public class Game extends GameAdapter {
      * Initializes the current 6x6 Sudoku board with zeros.
      *
      * @return the initialized Sudoku board.
+     * @since 1.0
      */
     @Override
     public ArrayList<ArrayList<Integer>> currentSudoku6x6() {
@@ -54,6 +56,7 @@ public class Game extends GameAdapter {
      * Retrieves the current state of the Sudoku board.
      *
      * @return the current Sudoku board.
+     * @since 1.0
      */
     @Override
     public ArrayList<ArrayList<Integer>> getcurrentSudoku6x6() {
@@ -67,6 +70,7 @@ public class Game extends GameAdapter {
      * @param col   the column of the board to update.
      * @param value the new value to place at the specified position.
      * @return true if the update was successful, false otherwise.
+     * @since 1.0
      */
     @Override
     public boolean updateCurrentBoard(int row, int col, int value) {
@@ -84,6 +88,7 @@ public class Game extends GameAdapter {
      *
      * @param board the Sudoku board to be filled.
      * @return true if the board was successfully filled, false otherwise.
+     * @since 1.0
      */
     @Override
     public boolean fillBoard(ArrayList<ArrayList<Integer>> board) {
@@ -120,6 +125,7 @@ public class Game extends GameAdapter {
      * @param col    the column to check.
      * @param number the number to validate.
      * @return true if the number can be placed, false otherwise.
+     * @since 1.0
      */
     @Override
     public boolean isValidPlacement(ArrayList<ArrayList<Integer>> board, int row, int col, int number) {
